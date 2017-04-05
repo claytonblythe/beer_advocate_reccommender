@@ -1,0 +1,109 @@
+---
+title: Beer Advocate Visualized
+author: Clayton Blythe
+date: '2017-03-31'
+slug: beer-advocate-visualized
+categories:
+  - beer
+  - data
+  - R
+  - tranquilpeak
+tags:
+  - beer
+  - data
+  - R Markdown
+  - visualization
+draft: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Data and Beer. Both hold a special place in my heart, so I thought it would be an appropriate start to my EtherealData Blog and Data Science portfolio. I have been learning R and SAS for the past couple months, and R has seemed to be more useful for visualization and reporting so far. 
+
+This is an introductory R investigation into BeerAdvocate reviews, specifically what beers at specific breweries are the highest rated, and what beers are the best within various categories. See <http://beeradvocate.com>.
+
+I am running R Studio on OSX, and am familiar with the Unix/Linux command line. Some of the main useful packages that I use here are ggplot and dplyr, both part of the tidyverse. 
+
+The data was found online by doing a thorough google search for users' beer reviews, and it encompasses data through the beginning of 2012. It encompasses 1.6 million observations of user reviews, including the beer name, brewery name, beer style, username, and various qualitative characteristics of the beer as well as an overall rating. 
+
+First let's download the data from the internet. (I won't provide this step, as the owners of BeerAdvocate can be picky about how you obtain their data) 
+Make sure that you have the following packages installed. {dplyr, ggplot, ggthemes}
+
+Then load them into the current R environment, and check where we are (the current directory). This tutorial assumes you have the data in the same directory/folder as the R program.
+
+```{r} 
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+```
+
+## Read in the data
+```{r cache=FALSE}
+data <- read.csv(file="beer_reviews.csv")
+```
+
+Let's take a basic look at the data, and see how generous BeerAdvocate users are in the distribution of their ratings. We can also look at the distribution of alcohol by volume, for our own curiosity.
+```{r warning=FALSE}
+ggplot(data, aes(x=review_overall, fill="red"))+geom_density() + xlim(0,5)+theme_bw()
+ggplot(data, aes(x=beer_abv, fill="red"))+geom_density() +xlim(0,18) + theme_bw()
+```
+
+Here we use the dplyr package to take our data and group the reviews by the brewery_name and beer, as well as style just to be sure. Then we find the number of reviews, mean, and standard deviation for each group.
+```{r}
+beers_and_breweries <- data %>% group_by(brewery_name,beer_name,beer_style)%>% summarise(overall_average= mean(review_overall), sd = sd(review_overall),aroma_average = mean(review_aroma), appearance_average = mean(review_appearance), palate_average=mean(review_palate), taste_average=mean(review_taste), n=n()) 
+
+save(beers_and_breweries,file="beers_and_breweries.Rdata")
+```
+Next I filter out missing values from the data, as well as only keeping beers for which there is at least 100 reviews. Also, we need to elimate the "/" in the brewery name and beer name columns, as it causes errors.
+
+```{r}
+beers_and_breweries <- na.omit(beers_and_breweries) %>% dplyr::filter(n>=100) %>% dplyr::arrange(desc(n))
+beers_and_breweries$brewery_name <- gsub("/", "_", beers_and_breweries$brewery_name)
+beers_and_breweries$beer_style <- gsub("/", "_", beers_and_breweries$beer_style)
+```
+
+Group the beers by each brewery to get an overall beer quality average for each brewery, then filter out breweries that make less than 6 beers. Finally, sort by total overall average and take the top 5 breweries
+```{r}
+breweries <- beers_and_breweries %>% dplyr::group_by(brewery_name) %>% dplyr::summarise(overall_brewery_averge=mean(overall_average), n=n())  %>% dplyr::filter(n>=6) 
+breweries <- breweries %>% dplyr::arrange(desc(overall_brewery_averge)) %>% dplyr::slice(1:5)
+```
+
+
+### Let's see who has the best beer? *As of 2012
+
+*Top 5 breweries brewing at least 6 beers that have over 100 reviews on BeerAdvocate
+
+Loop over the top quality breweries and plot out the average rating of each of their beers. Here the range represents one standard deviation away from the average review for each beer.
+
+```{r warning=FALSE, fig.width=13, fig.height=9}
+for (brewery_string in unique(breweries$brewery_name)){
+d <- dplyr::filter(beers_and_breweries,brewery_name==brewery_string) %>% arrange(desc(overall_average)) 
+d <- within(d,beer_name <- factor(beer_name,levels=names(sort(table(beer_name),decreasing=TRUE))))
+limits <- aes(ymax=overall_average+sd, ymin=overall_average-sd)
+print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))}
+```
+
+So here we see that Russian River Brewing company was the highest rated established brewing company, which I defined as a brewery that has at least 6 bears with more than 100 reviews. The red dots are the average overall review for each beer, with the lines representing one standard deviation above and below for the distribution of each beer's ratings.
+
+
+# Who has the worst beers?
+Same thing here, but sorting a different direction for overall average.
+```{r}
+breweries <- beers_and_breweries %>% dplyr::group_by(brewery_name) %>% summarise(overall_brewery_averge=mean(overall_average), n=n())  %>% dplyr::filter(n>=6) 
+breweries <- breweries %>% arrange(overall_brewery_averge) %>% slice(1:5)
+```
+
+Loop over all the beers again for the lowest rated beers.
+
+```{r warning=FALSE, fig.width=13, fig.height=9}
+for (brewery_string in unique(breweries$brewery_name)){
+d <- dplyr::filter(beers_and_breweries,brewery_name==brewery_string) %>% arrange(overall_average) 
+d <- within(d,beer_name <- factor(beer_name,levels=names(sort(table(beer_name),decreasing=TRUE))))
+limits <- aes(ymax=overall_average+sd, ymin=overall_average-sd)
+print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))}
+```
+
+Wow. Not sure these results are that surprising to anyone. It does appear that there is a much larger variation in the average review for companies like Annheuser-Busch. These types of beers are quite polarizing in general. 
+
