@@ -82,7 +82,9 @@ for (brewery_string in unique(breweries$brewery_name)){
 d <- dplyr::filter(beers_and_breweries,brewery_name==brewery_string) %>% arrange(desc(overall_average)) 
 d <- within(d,beer_name <- factor(beer_name,levels=names(sort(table(beer_name),decreasing=TRUE))))
 limits <- aes(ymax=overall_average+sd, ymin=overall_average-sd)
-print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))}
+pdf(file=paste("../figures/",brewery_string, "_beers.pdf", sep=""),width=16, height = 9)
+print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))
+dev.off()}
 ```
 
 So here we see that Russian River Brewing company was the highest rated established brewing company, which I defined as a brewery that has at least 6 bears with more than 100 reviews. The red dots are the average overall review for each beer, with the lines representing one standard deviation above and below for the distribution of each beer's ratings.
@@ -102,7 +104,9 @@ for (brewery_string in unique(breweries$brewery_name)){
 d <- dplyr::filter(beers_and_breweries,brewery_name==brewery_string) %>% arrange(overall_average) 
 d <- within(d,beer_name <- factor(beer_name,levels=names(sort(table(beer_name),decreasing=TRUE))))
 limits <- aes(ymax=overall_average+sd, ymin=overall_average-sd)
-print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))}
+pdf(file=paste("../figures/",brewery_string, "_beers.pdf", sep=""),width=16, height = 9)
+print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", brewery_string, "Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))
+dev.off()}
 ```
 
 Wow. Not sure these results are that surprising to anyone. It does appear that there is a much larger variation in the average review for companies like Annheuser-Busch. These types of beers are quite polarizing in general. 
