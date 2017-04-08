@@ -11,8 +11,6 @@ for my own purposes or built into an app.
 
 
 
-```
-
 Data and Beer. Both hold a special place in my heart, so I thought it would be an appropriate start to my EtherealData Blog and Data Science portfolio. I have been learning R and SAS for the past couple months, and R has seemed to be more useful for visualization and reporting so far. 
 
 This is an introductory R investigation into BeerAdvocate reviews, specifically what beers at specific breweries are the highest rated, and what beers are the best within various categories. See <http://beeradvocate.com>.
