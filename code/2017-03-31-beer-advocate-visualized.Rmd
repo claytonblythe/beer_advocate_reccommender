@@ -72,7 +72,7 @@ breweries <- breweries %>% dplyr::arrange(desc(overall_brewery_averge)) %>% dply
 ```
 
 
-### Let's see who has the best beer? *As of 2012
+##Who has the best beer? *As of 2012
 
 *Top 5 breweries brewing at least 6 beers that have over 100 reviews on BeerAdvocate
 
@@ -95,7 +95,7 @@ print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=
 So here we see that Russian River Brewing company was the highest rated established brewing company, which I defined as a brewery that has at least 6 bears with more than 100 reviews. The red dots are the average overall review for each beer, with the lines representing one standard deviation above and below for the distribution of each beer's ratings.
 
 
-# Who has the worst beers?
+## Who has the worst beers?
 Same thing here, but sorting a different direction for overall average.
 ```{r}
 breweries <- beers_and_breweries %>% dplyr::group_by(brewery_name) %>% summarise(overall_brewery_averge=mean(overall_average), n=n())  %>% dplyr::filter(n>=6) 
@@ -119,6 +119,7 @@ print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=
 
 Wow. Not sure these results are that surprising to anyone. It does appear that there is a much larger variation in the average review for companies like Annheuser-Busch. These types of beers are quite polarizing in general. 
 
+## By Beer Style
 Now let's look at specific types of beers, for those that have an affinity for a certain kind!
 
 ```{r warning=FALSE, fig.width=13, fig.height=9}
