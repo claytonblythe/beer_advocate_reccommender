@@ -135,7 +135,6 @@ pdf(file=paste("~/Desktop/Mega/Data_Science/projects/beer_advocate_reccommender/
 print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", beer_style_string, "Style Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))
 dev.off()
 
-print(ggplot(d,aes(x=reorder(beer_name,overall_average),y=overall_average, fill=beer_name)) + geom_point(shape=21, size=3, fill="red")  + geom_errorbar(limits,width=.2) +  geom_text(aes(x=beer_name,y=.29,label=paste(n,"reviews")),nudge_x=-.35) + coord_flip() + scale_y_continuous(expand = c(0, 0), limits = c(0, 5.5)) + ggtitle(paste("Average BeerAdvocate Review for", beer_style_string, "Style Beers")) + theme_solarized() + theme(axis.text=element_text(size=14), plot.title = element_text(size=16,face="bold"), axis.title.y = element_blank(), axis.title.x=element_blank()))
 }
 ```
 
