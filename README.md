@@ -11,26 +11,6 @@ for my own purposes or built into an app.
 
 
 
----
-title: "Beer Advocate Visualized"
-author: "Clayton Blythe"
-date: '2017-03-31'
-draft: yes
-slug: beer-advocate-visualized
-tags:
-- beer
-- data
-- R Markdown
-- visualization
-categories:
-- beer
-- data
-- R
-- tranquilpeak
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Data and Beer. Both hold a special place in my heart, so I thought it would be an appropriate start to my EtherealData Blog and Data Science portfolio. I have been learning R and SAS for the past couple months, and R has seemed to be more useful for visualization and reporting so far. 
