@@ -158,4 +158,3 @@ We can produce figures like the following:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/beer_styles/Dubbel.png)
 
 
-Testing alias command
