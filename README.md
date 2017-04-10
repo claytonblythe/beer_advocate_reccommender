@@ -138,6 +138,11 @@ We can produce figures like the following:
 ## Deschutes Beers:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/best_breweries/Deschutes%20Brewery_beers.png)
 
+## Three Floyd's Brewing
+![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/best_breweries/Three%20Floyds%20Brewing%20Co.%20%26%20Brewpub_beers.png)
+
+## Brouwerij St. Bernadus NV
+![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/best_breweries/Brouwerij%20St.%20Bernardus%20NV_beers.png)
 
 ## Annheuser-Busch Beers:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/worst_breweries/Anheuser-Busch_beers.png)
