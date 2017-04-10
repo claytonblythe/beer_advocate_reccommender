@@ -148,5 +148,11 @@ We can produce figures like the following:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/worst_breweries/Anheuser-Busch_beers.png)
 
 
-## Top Foregin Stouts:
+## Top Foreign Stouts:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/beer_styles/Foreign%20%20Export%20Stout.png)
+
+## Top English Porters:
+![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/beer_styles/English%20Porter.png)
+
+## Top Dubbel:
+![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/beer_styles/Dubbel.png)
