@@ -135,13 +135,13 @@ dev.off()
 We can produce figures like the following:
 
 
-Deschutes Beers:
+## Deschutes Beers:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/best_breweries/Deschutes%20Brewery_beers.png)
 
 
-Annheuser-Busch Beers:
+## Annheuser-Busch Beers:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/worst_breweries/Anheuser-Busch_beers.png)
 
-Top Foregin Stouts:
 
+## Top Foregin Stouts:
 ![Alt Test](https://github.com/claytonblythe/beer_advocate_reccommender/blob/master/figures/beer_styles/Foreign%20%20Export%20Stout.png)
